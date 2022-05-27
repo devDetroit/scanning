@@ -22,6 +22,7 @@ Route::middleware('auth')->group(
         });
 
         Route::get('/dashboard', function () {
+            abort_if(!Auth::user()->is_admin, 403);
             return view('dashboard');
         });
 

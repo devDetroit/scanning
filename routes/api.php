@@ -46,9 +46,16 @@ Route::get('/report/filter', function () {
 });
 
 
-Route::get('/dashboard/general', function () {
+Route::get('/dashboard', function () {
     $currentDate =  date("Y-m-d");
+    /*     $dateFilter = null;
 
+    if (isset(request()->filterDate)) {
+        $dateFilter = date_create(request()->filterDate);
+        date_format($dateFilter, "Y-m-d");
+    }
+
+    return $dateFilter; */
     return response()->json(
         [
             "general" => DB::table('scannings')
@@ -64,6 +71,12 @@ Route::get('/dashboard/general', function () {
                 ->where('scannings.created_at', '>=', isset(request()->filterDate) ? request()->filterDate . " 00:00:01" : "$currentDate 00:00:01")
                 ->where('scannings.created_at', '<=', isset(request()->filterDate) ? request()->filterDate . " 23:59:59" : "$currentDate 23:59:59")
                 ->groupBy('stations.station')
+                ->get(),
+            "groupData" =>
+            DB::table('scannings')
+                ->select(DB::raw('count(*) as totalItemFounds, label'))
+                ->groupBy('label')
+                ->having('totalItemFounds', '>', 1)
                 ->get(),
         ]
     );

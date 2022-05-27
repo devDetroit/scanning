@@ -40,6 +40,9 @@
                     <ul class="navbar-nav me-auto">
                         @auth
                         <li class="nav-item">
+                            <a class="nav-link" href="/dashboard">{{ __('Dashboard') }}</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/report">{{ __('Report') }}</a>
                         </li>
                         @endauth

@@ -2099,12 +2099,14 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+var chartGeneral = null;
+var chartDay = null;
 
 function GraphicsForm(props) {
-  //var data = [{ "totalScanned": 28, "station": "Station 1" }, { "totalScanned": 4, "station": "Station 2" }, { "totalScanned": 1, "station": "Station 3" }];
   var chartId = "chart" + props.chartName;
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
-    console.log('entro a la grafica');
+    if (chartGeneral != null) chartGeneral.destroy();
+    initializeGraphic();
   });
 
   function initializeGraphic() {
@@ -2113,9 +2115,42 @@ function GraphicsForm(props) {
       type: 'bar',
       data: {
         datasets: [{
-          label: 'Records per User',
-          data: props.data,
+          label: 'Records per Station',
+          data: props.generalData,
           backgroundColor: 'rgba(0, 81, 251, 0.6)'
+        }]
+      },
+      options: {
+        parsing: {
+          xAxisKey: 'station',
+          yAxisKey: 'totalScanned'
+        }
+      }
+    });
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("canvas", {
+    id: chartId,
+    height: "105"
+  });
+}
+
+function GraphicsFormDay(props) {
+  var chartId = "chart" + props.chartName;
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    if (chartDay != null) chartDay.destroy();
+    initializeGraphic();
+  });
+
+  function initializeGraphic() {
+    var ctx = document.getElementById(chartId);
+    chartDay = new chart_js_auto__WEBPACK_IMPORTED_MODULE_3__["default"](ctx, {
+      type: 'bar',
+      data: {
+        datasets: [{
+          label: 'Records per Station',
+          data: props.generalData,
+          backgroundColor: 'rgba( 255, 155, 111, 0.6)'
         }]
       },
       options: {
@@ -2146,37 +2181,35 @@ var Dashboard = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       gnData: [],
-      dilyDate: []
+      filterDate: ''
     };
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Dashboard, [{
+    key: "handleChange",
+    value: function handleChange(e) {
+      this.getGeneralData(e.target.value);
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.getGeneralData();
     }
   }, {
     key: "getGeneralData",
-    value: function getGeneralData() {
+    value: function getGeneralData(filterDate) {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/dashboard/general').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/dashboard', {
+        params: {
+          filterDate: filterDate
+        }
+      }).then(function (response) {
         _this2.setState({
-          gnData: response.data
-        });
-      })["catch"](function (error) {
-        console.error(error);
-      });
-    }
-  }, {
-    key: "getSpecificData",
-    value: function getSpecificData() {
-      var _this3 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/dashboard/general').then(function (response) {
-        _this3.setState({
-          gnData: response.data
+          gnData: response.data,
+          filterDate: filterDate
         });
       })["catch"](function (error) {
         console.error(error);
@@ -2185,29 +2218,67 @@ var Dashboard = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log(this.state.gnData);
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      var _this$state$filterDat, _this$state$gnData$ge, _this$state$gnData, _this$state$gnData$ge2, _this$state$gnData$de, _this$state$gnData2, _this$state$gnData2$d, _this$state$gnData$gr, _this$state$gnData3, _this$state$gnData3$g;
+
+      var generalData = this.state.gnData.general;
+      var dailyData = this.state.gnData.details;
+      var today = (_this$state$filterDat = this.state.filterDate) !== null && _this$state$filterDat !== void 0 ? _this$state$filterDat : new Date().toISOString().slice(0, 10);
+      var listItems = (_this$state$gnData$ge = (_this$state$gnData = this.state.gnData) === null || _this$state$gnData === void 0 ? void 0 : (_this$state$gnData$ge2 = _this$state$gnData.general) === null || _this$state$gnData$ge2 === void 0 ? void 0 : _this$state$gnData$ge2.map(function (generalData, index) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+            children: index + 1
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+            children: generalData.station
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+            children: generalData.totalScanned
+          })]
+        }, index);
+      })) !== null && _this$state$gnData$ge !== void 0 ? _this$state$gnData$ge : [];
+      var listItemsDaily = (_this$state$gnData$de = (_this$state$gnData2 = this.state.gnData) === null || _this$state$gnData2 === void 0 ? void 0 : (_this$state$gnData2$d = _this$state$gnData2.details) === null || _this$state$gnData2$d === void 0 ? void 0 : _this$state$gnData2$d.map(function (daily, index) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+            children: index + 1
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+            children: daily.station
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+            children: daily.totalScanned
+          })]
+        }, index);
+      })) !== null && _this$state$gnData$de !== void 0 ? _this$state$gnData$de : [];
+      var listItemsRepeted = (_this$state$gnData$gr = (_this$state$gnData3 = this.state.gnData) === null || _this$state$gnData3 === void 0 ? void 0 : (_this$state$gnData3$g = _this$state$gnData3.groupData) === null || _this$state$gnData3$g === void 0 ? void 0 : _this$state$gnData3$g.map(function (repeted, index) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+            children: index + 1
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+            children: repeted.label
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+            children: repeted.totalItemFounds
+          })]
+        }, index);
+      })) !== null && _this$state$gnData$gr !== void 0 ? _this$state$gnData$gr : [];
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "container-fluid",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "row mt-4",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
             className: "col-md-6",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h4", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h4", {
               className: "m-4",
               children: "General Summary"
-            })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(GraphicsForm, {
+              chartName: 'generalChart',
+              generalData: generalData
+            })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
             className: "col-md-6",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
               className: "row",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                 className: "col-md-6",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("h5", {
                   className: "m-4",
-                  children: "Daily Summary"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(GraphicsForm, {
-                  chartName: 'generalChart'
-                })]
+                  children: ["Daily Summary - ", today]
+                })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                 className: "col-md-6",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
@@ -2218,17 +2289,111 @@ var Dashboard = /*#__PURE__*/function (_React$Component) {
                     children: "Filter by date"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                     type: "date",
+                    onChange: this.handleChange,
                     className: "form-control form-control-sm",
                     id: "dateFilter"
                   })]
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("canvas", {
-              id: "myChart2",
-              height: "105"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(GraphicsFormDay, {
+              chartName: 'dailyChart',
+              generalData: dailyData
             })]
           })]
-        })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "row mt-4",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            className: "col-md-4",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "card",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "card-body",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
+                  className: "card-title",
+                  children: "Total scanned labels"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
+                  className: "table",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        scope: "col",
+                        children: "#"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        scope: "col",
+                        children: "Station"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        scope: "col",
+                        children: "Total scanned labels"
+                      })]
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
+                    children: listItems
+                  })]
+                })]
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            className: "col-md-4",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "card",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "card-body",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
+                  className: "card-title",
+                  children: "Total daily labels"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
+                  className: "table",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        scope: "col",
+                        children: "#"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        scope: "col",
+                        children: "Station"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        scope: "col",
+                        children: "Total scanned labels"
+                      })]
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
+                    children: listItemsDaily
+                  })]
+                })]
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            className: "col-md-4",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "card",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "card-body",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
+                  className: "card-title",
+                  children: "Repeted partnumbers"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
+                  className: "table",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        scope: "col",
+                        children: "#"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        scope: "col",
+                        children: "Station"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        scope: "col",
+                        children: "Total"
+                      })]
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
+                    children: listItemsRepeted
+                  })]
+                })]
+              })
+            })
+          })]
+        })]
       });
     }
   }]);
