@@ -48,7 +48,7 @@ class ScanningController extends Controller
         $this->validateSession();
 
         $request->validate([
-            'scanning' => ['required', Rule::unique('scannings', 'label')]
+            'scanning' => ['required']
         ]);
 
 
