@@ -44,3 +44,27 @@ Route::get('/report/filter', function () {
         ->select('scannings.*', 'users.user', 'stations.station')
         ->get();
 });
+
+
+Route::get('/dashboard/general', function () {
+    $currentDate =  date("Y-m-d");
+
+    return response()->json(
+        [
+            "general" => DB::table('scannings')
+                ->select(DB::raw('count(*) as totalScanned, stations.station'))
+                ->join('stations', 'scannings.station_id', '=', 'stations.id')
+                ->groupBy('stations.station')
+                ->get(),
+
+            "details" =>
+            DB::table('scannings')
+                ->select(DB::raw('count(*) as totalScanned, stations.station'))
+                ->join('stations', 'scannings.station_id', '=', 'stations.id')
+                ->where('scannings.created_at', '>=', isset(request()->filterDate) ? request()->filterDate . " 00:00:01" : "$currentDate 00:00:01")
+                ->where('scannings.created_at', '<=', isset(request()->filterDate) ? request()->filterDate . " 23:59:59" : "$currentDate 23:59:59")
+                ->groupBy('stations.station')
+                ->get(),
+        ]
+    );
+});

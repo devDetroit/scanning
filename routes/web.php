@@ -17,7 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(
     function () {
         Route::get('/report', function () {
+            abort_if(!Auth::user()->is_admin, 403);
             return view('report');
+        });
+
+        Route::get('/dashboard', function () {
+            return view('dashboard');
         });
 
         Route::get('/show', [ScanningController::class, 'getStationData']);

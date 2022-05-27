@@ -24,6 +24,7 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
+        "chart.js": "^3.8.0",
         "sweetalert2": "^11.4.16",
         "tabulator-tables": "^5.2.4"
     }

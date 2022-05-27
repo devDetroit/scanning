@@ -17,4 +17,6 @@ mix.js('resources/js/app.js', 'public/js')
     .react()
     .js('resources/js/scanning.js', 'public/js')
     .react()
+    .js('resources/js/dashboard.js', 'public/js')
+    .react()
     .sass('resources/sass/app.scss', 'public/css');
