@@ -58,7 +58,7 @@ function ScanningForm() {
     }
 
     function downloadExcel() {
-        table.download("csv", "scanning.csv");
+        table.download("xlsx", "data.xlsx", { sheetName: "MyData" });
     }
 
     function handleSubmit(e) {
