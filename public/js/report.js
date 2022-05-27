@@ -2269,7 +2269,7 @@ function ScanningForm() {
                 type: "button",
                 className: "btn btn-dark",
                 onClick: downloadExcel,
-                children: "Download CSV"
+                children: "Download Excel"
               })]
             })]
           })

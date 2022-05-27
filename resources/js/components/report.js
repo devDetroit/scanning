@@ -107,7 +107,7 @@ function ScanningForm() {
                             <div className="col-auto">
                                 <button type="submit" className="btn btn-primary">Search</button>
                                 <button type="reset" className="btn btn-warning">Clear</button>
-                                <button type="button" className="btn btn-dark" onClick={downloadExcel}>Download CSV</button>
+                                <button type="button" className="btn btn-dark" onClick={downloadExcel}>Download Excel</button>
                             </div>
                         </form>
                     </CardLayout>
