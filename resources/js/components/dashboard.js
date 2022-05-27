@@ -165,7 +165,7 @@ class Dashboard extends React.Component {
                     <div className="col-md-6">
                         <div className="card">
                             <div className="card-body">
-                                <h5 className="card-title">Total daily labels</h5>
+                                <h5 className="card-title">Total daily labels scanned</h5>
                                 <table className="table">
                                     <thead>
                                         <tr>
@@ -206,7 +206,7 @@ class Dashboard extends React.Component {
                     <div className="col-md-6">
                         <div className="card">
                             <div className="card-body">
-                                <h5 className="card-title">tracking number repeated - {today}</h5>
+                                <h5 className="card-title">tracking number repeated by day - {today}</h5>
                                 <table className="table">
                                     <thead>
                                         <tr>
