@@ -143,7 +143,7 @@ class Dashboard extends React.Component {
                     </div>
                 </div>
                 <div className="row mt-4">
-                    <div className="col-md-4">
+                    <div className="col-md-6">
                         <div className="card">
                             <div className="card-body">
                                 <h5 className="card-title">Total scanned labels</h5>
@@ -162,7 +162,7 @@ class Dashboard extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-6">
                         <div className="card">
                             <div className="card-body">
                                 <h5 className="card-title">Total daily labels</h5>
@@ -181,7 +181,10 @@ class Dashboard extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-4">
+
+                </div>
+                <div className="row mt-4">
+                    <div className="col-md-6">
                         <div className="card">
                             <div className="card-body">
                                 <h5 className="card-title">tracking number repeated</h5>
@@ -200,9 +203,7 @@ class Dashboard extends React.Component {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="row mt-4">
-                    <div className="col-md-4">
+                    <div className="col-md-6">
                         <div className="card">
                             <div className="card-body">
                                 <h5 className="card-title">tracking number repeated - {today}</h5>

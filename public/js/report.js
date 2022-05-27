@@ -2189,7 +2189,8 @@ function ScanningForm() {
       columns: [//Define Table Columns
       {
         title: "Label",
-        field: "label"
+        field: "label",
+        headerFilter: true
       }, {
         title: "Station",
         field: "station"

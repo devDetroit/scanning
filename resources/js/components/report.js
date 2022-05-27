@@ -73,7 +73,7 @@ function ScanningForm() {
             height: 600, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
             layout: "fitColumns", //fit columns to width of table (optional)
             columns: [ //Define Table Columns
-                { title: "Label", field: "label" },
+                { title: "Label", field: "label", headerFilter: true },
                 { title: "Station", field: "station", },
                 { title: "Date", field: "created_at", },
                 { title: "User", field: "user" },
