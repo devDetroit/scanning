@@ -117,6 +117,9 @@ class Dashboard extends React.Component {
 
         const listItemsRepeted = this.state.gnData?.groupData?.map((repeted, index) => <tr key={index}><th>{index + 1}</th><td>{repeted.label}</td><td>{repeted.totalItemFounds
         }</td></tr>) ?? [];
+
+        const listItemsRepetedByDate = this.state.gnData?.groupDataByDate?.map((groupDataByDate, index) => <tr key={index}><th>{index + 1}</th><td>{groupDataByDate.label}</td><td>{groupDataByDate.totalItemFounds
+        }</td></tr>) ?? [];
         return (
             <div className='container-fluid'>
                 <div className="row mt-4">
@@ -181,17 +184,38 @@ class Dashboard extends React.Component {
                     <div className="col-md-4">
                         <div className="card">
                             <div className="card-body">
-                                <h5 className="card-title">Repeted partnumbers</h5>
+                                <h5 className="card-title">tracking number repeated</h5>
                                 <table className="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Station</th>
+                                            <th scope="col">tracking number</th>
                                             <th scope="col">Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {listItemsRepeted}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="row mt-4">
+                    <div className="col-md-4">
+                        <div className="card">
+                            <div className="card-body">
+                                <h5 className="card-title">tracking number repeated - {today}</h5>
+                                <table className="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">tracking number</th>
+                                            <th scope="col">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {listItemsRepetedByDate}
                                     </tbody>
                                 </table>
                             </div>

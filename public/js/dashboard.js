@@ -2218,7 +2218,7 @@ var Dashboard = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this$state$filterDat, _this$state$gnData$ge, _this$state$gnData, _this$state$gnData$ge2, _this$state$gnData$de, _this$state$gnData2, _this$state$gnData2$d, _this$state$gnData$gr, _this$state$gnData3, _this$state$gnData3$g;
+      var _this$state$filterDat, _this$state$gnData$ge, _this$state$gnData, _this$state$gnData$ge2, _this$state$gnData$de, _this$state$gnData2, _this$state$gnData2$d, _this$state$gnData$gr, _this$state$gnData3, _this$state$gnData3$g, _this$state$gnData$gr2, _this$state$gnData4, _this$state$gnData4$g;
 
       var generalData = this.state.gnData.general;
       var dailyData = this.state.gnData.details;
@@ -2256,6 +2256,17 @@ var Dashboard = /*#__PURE__*/function (_React$Component) {
           })]
         }, index);
       })) !== null && _this$state$gnData$gr !== void 0 ? _this$state$gnData$gr : [];
+      var listItemsRepetedByDate = (_this$state$gnData$gr2 = (_this$state$gnData4 = this.state.gnData) === null || _this$state$gnData4 === void 0 ? void 0 : (_this$state$gnData4$g = _this$state$gnData4.groupDataByDate) === null || _this$state$gnData4$g === void 0 ? void 0 : _this$state$gnData4$g.map(function (groupDataByDate, index) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+            children: index + 1
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+            children: groupDataByDate.label
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+            children: groupDataByDate.totalItemFounds
+          })]
+        }, index);
+      })) !== null && _this$state$gnData$gr2 !== void 0 ? _this$state$gnData$gr2 : [];
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "container-fluid",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
@@ -2370,7 +2381,7 @@ var Dashboard = /*#__PURE__*/function (_React$Component) {
                 className: "card-body",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
                   className: "card-title",
-                  children: "Repeted partnumbers"
+                  children: "tracking number repeated"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
                   className: "table",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
@@ -2380,7 +2391,7 @@ var Dashboard = /*#__PURE__*/function (_React$Component) {
                         children: "#"
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
                         scope: "col",
-                        children: "Station"
+                        children: "tracking number"
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
                         scope: "col",
                         children: "Total"
@@ -2393,6 +2404,39 @@ var Dashboard = /*#__PURE__*/function (_React$Component) {
               })
             })
           })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "row mt-4",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            className: "col-md-4",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "card",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "card-body",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("h5", {
+                  className: "card-title",
+                  children: ["tracking number repeated - ", today]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
+                  className: "table",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        scope: "col",
+                        children: "#"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        scope: "col",
+                        children: "tracking number"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        scope: "col",
+                        children: "Total"
+                      })]
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
+                    children: listItemsRepetedByDate
+                  })]
+                })]
+              })
+            })
+          })
         })]
       });
     }
