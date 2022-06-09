@@ -47,7 +47,16 @@ Route::get('/report/filter', function () {
 
 
 Route::get('/dashboard', function () {
-    $currentDate =  date("Y-m-d");
+    $currentDate = date("Y-m-d");
+
+    if (isset(request()->filterDate)) {
+        $currentDate = request()->filterDate;
+    }
+
+    $filterDates = [
+        ['scannings.created_at', '>=', "$currentDate 00:00:01"],
+        ['scannings.created_at', '<=', "$currentDate 23:59:59"],
+    ];
 
     return response()->json(
         [
@@ -61,8 +70,7 @@ Route::get('/dashboard', function () {
             DB::table('scannings')
                 ->select(DB::raw('count(*) as totalScanned, stations.station'))
                 ->join('stations', 'scannings.station_id', '=', 'stations.id')
-                ->where('scannings.created_at', '>=', isset(request()->filterDate) ? request()->filterDate . " 00:00:01" : "$currentDate 00:00:01")
-                ->where('scannings.created_at', '<=', isset(request()->filterDate) ? request()->filterDate . " 23:59:59" : "$currentDate 23:59:59")
+                ->where($filterDates)
                 ->groupBy('stations.station')
                 ->get(),
             "groupData" =>
@@ -74,8 +82,7 @@ Route::get('/dashboard', function () {
             "groupDataByDate" =>
             DB::table('scannings')
                 ->select(DB::raw('count(*) as totalItemFounds, label'))
-                ->where('scannings.created_at', '>=', isset(request()->filterDate) ? request()->filterDate . " 00:00:01" : "$currentDate 00:00:01")
-                ->where('scannings.created_at', '<=', isset(request()->filterDate) ? request()->filterDate . " 23:59:59" : "$currentDate 23:59:59")
+                ->where($filterDates)
                 ->groupBy('label')
                 ->having('totalItemFounds', '>', 1)
                 ->get(),

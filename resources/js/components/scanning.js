@@ -64,14 +64,10 @@ function ScanningForm() {
             data: formData,
         })
             .then(function (response) {
-                Swal.fire({
-                    icon: 'success',
-                    title: response.data.message,
-                    showConfirmButton: false,
-                    timer: 1800,
-                });
-
-                table.setData();
+                var today = new Date().toLocaleString();
+                table.addData([{ label: scanningInput.value, station: StationDescriptionInput.value, created_at: today, user: userID.value }], true);
+                cleanForm();
+                scanning.focus();
             })
             .catch(error => {
                 Swal.fire({
@@ -80,10 +76,11 @@ function ScanningForm() {
                     icon: 'error',
                     confirmButtonText: 'Confirm!'
                 })
+                cleanForm();
+                scanning.focus();
             });
 
-        cleanForm();
-        scanning.focus();
+
     }
 
     function initializeTable() {
