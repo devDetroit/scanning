@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import Chart from 'chart.js/auto';
+import { TabulatorFull as Tabulator } from 'tabulator-tables';
 
 var chartGeneral = null;
 var chartDay = null;
@@ -85,6 +86,7 @@ class Dashboard extends React.Component {
     }
     componentDidMount() {
         this.getGeneralData()
+
     }
 
     getGeneralData(filterDate) {
@@ -97,11 +99,25 @@ class Dashboard extends React.Component {
                 this.setState({
                     gnData: response.data,
                     filterDate: filterDate,
-                })
+                }, () => this.initializeTabulator(response.data.groupData))
+
             })
             .catch(error => {
                 console.error(error);
             })
+    }
+
+    initializeTabulator(data) {
+        this.table = new Tabulator("#table-repeateds", {
+            height: 400,
+            layout: "fitColumns",
+            data: data,
+            columns: [ //Define Table Columns
+                { title: "", field: "", formatter: "rownum", width: 10 },
+                { title: "tracking number", field: "label", hozAlign: "center", headerHozAlign: "center" },
+                { title: "total", field: "totalItemFounds", hozAlign: "center", headerHozAlign: "center", },
+            ],
+        });
     }
 
     render() {
@@ -113,9 +129,6 @@ class Dashboard extends React.Component {
         }</td></tr>) ?? [];
 
         const listItemsDaily = this.state.gnData?.details?.map((daily, index) => <tr key={index}><th>{index + 1}</th><td>{daily.station}</td><td>{daily.totalScanned
-        }</td></tr>) ?? [];
-
-        const listItemsRepeted = this.state.gnData?.groupData?.map((repeted, index) => <tr key={index}><th>{index + 1}</th><td>{repeted.label}</td><td>{repeted.totalItemFounds
         }</td></tr>) ?? [];
 
         const listItemsRepetedByDate = this.state.gnData?.groupDataByDate?.map((groupDataByDate, index) => <tr key={index}><th>{index + 1}</th><td>{groupDataByDate.label}</td><td>{groupDataByDate.totalItemFounds
@@ -188,18 +201,7 @@ class Dashboard extends React.Component {
                         <div className="card">
                             <div className="card-body">
                                 <h5 className="card-title">tracking number repeated</h5>
-                                <table className="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">tracking number</th>
-                                            <th scope="col">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {listItemsRepeted}
-                                    </tbody>
-                                </table>
+                                <div id='table-repeateds'></div>
                             </div>
                         </div>
                     </div>
