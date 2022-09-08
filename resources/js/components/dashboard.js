@@ -79,6 +79,7 @@ class Dashboard extends React.Component {
         super(props);
         this.state = { gnData: [], filterDate: '' };
         this.handleChange = this.handleChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     handleChange(e) {
@@ -107,13 +108,17 @@ class Dashboard extends React.Component {
             })
     }
 
+    handleClick() {
+        this.table.download("csv", "data-repeated.csv");
+    }
+
     initializeTabulator(data) {
         this.table = new Tabulator("#table-repeateds", {
-            height: 400,
+            height: 500,
             layout: "fitColumns",
             data: data,
             columns: [ //Define Table Columns
-                { title: "", field: "", formatter: "rownum", width: 10 },
+                { title: "", field: "", formatter: "rownum", width: 20 },
                 { title: "tracking number", field: "label", hozAlign: "center", headerHozAlign: "center" },
                 { title: "total", field: "totalItemFounds", hozAlign: "center", headerHozAlign: "center", },
             ],
@@ -199,8 +204,17 @@ class Dashboard extends React.Component {
                 <div className="row mt-4">
                     <div className="col-md-6">
                         <div className="card">
+                            <div className='card-header'>
+                                <div className="row">
+                                    <div className="col">
+                                        <h5 className="card-title d-inline">tracking number repeated</h5>
+                                    </div>
+                                    <div className="col text-end">
+                                        <button type="button" className="btn btn-dark d-inline" onClick={this.handleClick}>Download excel</button>
+                                    </div>
+                                </div>
+                            </div>
                             <div className="card-body">
-                                <h5 className="card-title">tracking number repeated</h5>
                                 <div id='table-repeateds'></div>
                             </div>
                         </div>
