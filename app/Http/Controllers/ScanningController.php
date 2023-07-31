@@ -26,22 +26,6 @@ class ScanningController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 
@@ -58,44 +42,13 @@ class ScanningController extends Controller
             'station_id' => session('station'),
         ]);
 
+        DB::select('CALL`amazon_scanning`.`StoreBarCode`(?, ?)', [$request->input('scanning'), 'DT_SCANNING']);
+
         return response()->json([
             'message' => 'Record Inserted Successfully',
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Scanning  $scanning
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Scanning $scanning)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Scanning  $scanning
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Scanning $scanning)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Scanning  $scanning
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Scanning $scanning)
-    {
-        //
-    }
 
     public function getStationData()
     {
@@ -107,17 +60,6 @@ class ScanningController extends Controller
             ->select('scannings.*', 'users.user', 'stations.station')
             ->limit(50)
             ->get();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Scanning  $scanning
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Scanning $scanning)
-    {
-        //
     }
 
     public function validateSession()
